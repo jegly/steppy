@@ -1,0 +1,31 @@
+#!/bin/sh
+# Steppy (32gb build) — ACE-Step 1.5 engine
+export SF_WORKER=/opt/steppy/worker_acestep.py
+export SF_VENV_PY=/opt/steppy/runtime/bin/python3
+export SF_STEPPY_ACESTEP_ROOT=/opt/steppy/acestep
+export SF_STEPPY_ACESTEP_CKPT=/opt/steppy/acestep/checkpoints
+
+# Pre-AVX2 CPUs (Ivy Bridge and older) hit an illegal instruction inside
+# oneDNN on some tensor shapes — a 30s render works, a 60s one dies with
+# SIGILL. Clamp oneDNN's ISA only when the host actually lacks avx2;
+# forcing it on a modern CPU would throw away AVX2/AVX-512 for nothing.
+grep -q avx2 /proc/cpuinfo 2>/dev/null || export DNNL_MAX_CPU_ISA=AVX
+
+# ACE-Step aborts a render after ACESTEP_GENERATION_TIMEOUT (default 600s,
+# sized for GPUs). CPU runs ~15x realtime, so a 2-minute track needs ~30 min.
+export ACESTEP_GENERATION_TIMEOUT=14400
+
+# Steppy ships every model it needs. It must never reach the network -- if a
+# path is wrong we want a clear local error, not a silent 7GB download attempt.
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+export HF_DATASETS_OFFLINE=1
+export HF_HUB_DISABLE_TELEMETRY=1
+export SF_STEPPY_MAX_SECONDS=600
+
+if command -v systemd-run >/dev/null 2>&1; then
+  exec systemd-run --user --scope -q --slice=app.slice \
+       -p MemoryHigh=20G \
+       python3 /opt/steppy/gui.py "$@"
+fi
+exec python3 /opt/steppy/gui.py "$@"

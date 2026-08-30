@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Steppy
+Comment=Offline AI music generator with sung lyrics
+Exec=steppy
+Icon=com.steppy.app
+Terminal=false
+Categories=AudioVideo;Audio;Music;
+StartupNotify=true

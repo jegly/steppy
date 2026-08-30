@@ -1,0 +1,26 @@
+# build output — the .deb is ~7GB, never commit it
+build/
+*.deb
+*.log
+verify-*.txt
+verify-*.err
+
+# model weights are downloaded, not committed (~7.3GB)
+checkpoints/
+acestep/
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# scratch
+output/
+*.wav
+# ...except the README demo clip, which is committed on purpose
+!steppy_demo.wav
+
+# internal dev notes — not for the public repo
+HANDOFF.md
+notes/
