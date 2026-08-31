@@ -4,10 +4,10 @@
 
 # Steppy
 
-**Offline AI music generation with sung lyrics — on CPU, no GPU required.**
+**Offline AI music generation with sung lyrics up to 3+ Minutes — on CPU, no GPU required.**
 
 A GTK4 / libadwaita desktop app for Linux, built on [ACE-Step 1.5](https://github.com/ace-step/ACE-Step-1.5).
-Describe a style, and it writes the lyrics and sings them.
+
 
 </div>
 
@@ -81,8 +81,8 @@ gstreamer1.0-plugins-base gstreamer1.0-plugins-good
 
 ## Install
 
-Download a `.deb` from [Releases](https://github.com/jegly/steppy/releases) —
-each is ~6.2 GiB, because the model and the entire Python runtime are inside it.
+Download a `.deb` from [HuggingFace](https://huggingface.co/jegly/steppy/tree/main) —
+
 
 ```sh
 sudo dpkg -i steppy_1.0.0-16gb_amd64.deb    # 16GB machines
@@ -98,7 +98,7 @@ sudo dpkg -i steppy_1.0.0-32gb_amd64.deb    # 32GB machines
 | max track length | 3 min | 10 min |
 | memory guard | `MemoryHigh=9G` | `MemoryHigh=20G` |
 
-The 16 GB build also runs fine on 32 GB machines — it's just more conservative.
+The 16 GB build also runs fine on 32 GB machines 
 
 ## Performance
 
@@ -106,7 +106,7 @@ Steppy runs entirely on CPU, and CPU music generation is slow. Measured throughp
 is **~15× realtime** on a Ivy Bridge i5 with no AVX2 — a 2-minute track takes
 about 30 minutes there.
 
-Modern CPUs with AVX2/AVX-512 should be substantially faster.
+Modern CPUs with AVX2/AVX-512 should are substantially faster.
 
 Auto-written lyrics add roughly 4 minutes per track on top.
 
